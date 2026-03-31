@@ -96,4 +96,4 @@ Visit `http://localhost:5173` to see the application.
 ## 🤝 Contributing
 Contributions are always welcome! Feel free to open issues or pull requests.
 
-Made with 💖 by [Kanak Verma](https://github.com/kanak227)
+

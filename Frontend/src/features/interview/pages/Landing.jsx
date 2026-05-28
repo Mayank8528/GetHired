@@ -1,4 +1,4 @@
-import React from 'react'
+7import React from 'react'
 import { useNavigate } from 'react-router'
 import { Rocket, Shield, Target, Brain, ArrowRight, Sparkles, LayoutDashboard, CodeXml } from 'lucide-react'
 

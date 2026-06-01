@@ -27,6 +27,11 @@ async function generateInterViewReportController(req, res) {
 
     try {
         if (!pdfParse) {
+            console.error("pdf-parse require result:", _pdfParse)
+            console.error("pdf-parse typeof result:", typeof _pdfParse)
+            if (_pdfParse && typeof _pdfParse === "object") {
+                console.error("pdf-parse object keys:", Object.keys(_pdfParse))
+            }
             throw new Error("pdf-parse module not available or has unexpected export shape")
         }
 

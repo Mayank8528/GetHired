@@ -1,5 +1,4 @@
-const _pdfParse = require("pdf-parse")
-const pdfParse = (typeof _pdfParse === "function") ? _pdfParse : (_pdfParse && _pdfParse.default) ? _pdfParse.default : null
+const { PDFParse } = require("pdf-parse")
 const { generateInterviewReport, generateResumePdf } = require("../services/ai.service")
 const interviewReportModel = require("../models/interviewReport.model")
 
@@ -26,16 +25,17 @@ async function generateInterViewReportController(req, res) {
     }
 
     try {
-        if (!pdfParse) {
-            console.error("pdf-parse require result:", _pdfParse)
-            console.error("pdf-parse typeof result:", typeof _pdfParse)
-            if (_pdfParse && typeof _pdfParse === "object") {
-                console.error("pdf-parse object keys:", Object.keys(_pdfParse))
-            }
-            throw new Error("pdf-parse module not available or has unexpected export shape")
+        if (!PDFParse) {
+            throw new Error("PDFParse class from pdf-parse module is not available")
         }
 
-        const pdfData = await pdfParse(req.file.buffer)
+        const parser = new PDFParse({ data: req.file.buffer })
+        let pdfData
+        try {
+            pdfData = await parser.getText()
+        } finally {
+            await parser.destroy()
+        }
         const resumeText = pdfData.text || ""
 
         const interViewReportByAi = await generateInterviewReport({

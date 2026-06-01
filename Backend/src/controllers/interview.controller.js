@@ -1,4 +1,5 @@
-const pdfParse = require("pdf-parse")
+const _pdfParse = require("pdf-parse")
+const pdfParse = (typeof _pdfParse === "function") ? _pdfParse : (_pdfParse && _pdfParse.default) ? _pdfParse.default : null
 const { generateInterviewReport, generateResumePdf } = require("../services/ai.service")
 const interviewReportModel = require("../models/interviewReport.model")
 
@@ -25,6 +26,10 @@ async function generateInterViewReportController(req, res) {
     }
 
     try {
+        if (!pdfParse) {
+            throw new Error("pdf-parse module not available or has unexpected export shape")
+        }
+
         const pdfData = await pdfParse(req.file.buffer)
         const resumeText = pdfData.text || ""
 

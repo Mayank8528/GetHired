@@ -24,30 +24,35 @@ async function generateInterViewReportController(req, res) {
         })
     }
 
-    const pdf = new pdfParse.PDFParse(new Uint8Array(req.file.buffer))
-    const resumeData = await pdf.getText()
+    try {
+        const pdfData = await pdfParse(req.file.buffer)
+        const resumeText = pdfData.text || ""
 
+        const interViewReportByAi = await generateInterviewReport({
+            resume: resumeText,
+            selfDescription,
+            jobDescription
+        })
 
-    const interViewReportByAi = await generateInterviewReport({
-        resume: resumeData.text,
-        selfDescription,
-        jobDescription
-    })
+        const interviewReport = await interviewReportModel.create({
+            user: req.user.id,
+            resume: resumeText,
+            selfDescription,
+            jobDescription,
+            ...interViewReportByAi
+        })
 
-    const interviewReport = await interviewReportModel.create({
-        user: req.user.id,
-        resume: resumeData.text,
-        selfDescription,
-        jobDescription,
-        ...interViewReportByAi
-    })
-
-
-
-    res.status(201).json({
-        message: "Interview report generated successfully.",
-        interviewReport
-    })
+        return res.status(201).json({
+            message: "Interview report generated successfully.",
+            interviewReport
+        })
+    } catch (err) {
+        console.error("Error generating interview report:", err)
+        return res.status(500).json({
+            message: "Failed to generate interview report.",
+            error: err.message
+        })
+    }
 
 }
 

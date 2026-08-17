@@ -46,7 +46,7 @@ Clone the repository and install dependencies for both Frontend and Backend:
 
 ```bash
 # Clone
-git clone https://github.com/kanak227/interview-ai-yt.git
+git clone https://github.com/Mayank8528/GetHired.git
 
 # Install Backend
 cd Backend

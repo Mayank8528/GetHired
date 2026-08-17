@@ -52,7 +52,7 @@ const Landing = () => {
                                 Create Your Plan <ArrowRight size={18} />
                             </button>
                         )}
-                        <a href="https://github.com/kanak227/interview-ai-yt" target="_blank" rel="noreferrer" className='btn-hero-secondary'>
+                        <a href="https://github.com/Mayank8528/GetHired" target="_blank" rel="noreferrer" className='btn-hero-secondary'>
                             <CodeXml size={18} /> View Source
                         </a>
 
